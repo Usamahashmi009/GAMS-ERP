@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .container {
+        background-color: white;
+        margin-top: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 95%; /* Make the container responsive */
+    }
+</style>
+<div class="container">
+    <h2>Account Payable</h2>
+    <br>
+    {% for entry in account_payable_entries %}
+    <div class="display_table table-responsive">
+        <table class='table'>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Account Payable</th>
+                    <th>Vendor</th>
+                    <th>Delete</th>
+                    <th>Pay</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ entry.id }}</td>
+                    <td>{{ entry.account_payable }}</td>
+                    <td>{{ entry.vender__name }}</td> <!-- Replace with the actual field you want to display -->
+                    <!-- Add more cells if needed -->
+                    <td>
+                        <a href="{% url 'delete_account_pay' entry.id %}" class="btn btn-danger btn-sm"
+                            style="width: 80px; height: 30px;">🗑️Delete</a>
+                    </td>
+                    <td>
+                        <form method="post" action="{% url 'pay_account_pay' entry.id %}">
+                            {% csrf_token %}
+                            <input type="number" name="account_payable_paid" min="0" required>
+                            <button type="submit" class="btn btn-success btn-sm" style="width: 80px; height: 30px;">💰Pay</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    {% endfor %}
+</div>
+
+{% endblock %}
+
+

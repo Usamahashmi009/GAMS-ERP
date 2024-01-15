@@ -1,0 +1,18 @@
+<!-- add_stock.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Stock</title>
+</head>
+<body>
+
+    <h2>Add Stock</h2>
+
+    <form method="post" action="{% url 'add_stock' %}">
+        {% csrf_token %}
+        {{ stock_form.as_p }}
+        <button type="submit">Add Stock</button>
+    </form>
+
+</body>
+</html>

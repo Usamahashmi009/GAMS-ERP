@@ -1,0 +1,31 @@
+<!-- purchase_returns_records.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Purchase Returns Records</h2>
+
+    <table class='table'>
+        <thead>
+            <tr>
+                <th>Company</th>
+                <th>Item Name</th>
+                <th>Quantity</th>
+                <th>Rate</th>
+                <th>Date</th>
+                <!-- Add more columns as needed -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for purchase_return in purchase_returns %}
+                <tr>
+                    <td>{{ purchase_return.stock.company }}</td>
+                    <td>{{ purchase_return.stock }}</td>
+                    <td>{{ purchase_return.return_quantity }}</td>
+                    <td>{{ purchase_return.total_value_returned }}</td>
+                    <td>{{ purchase_return.return_date }}</td>
+                    <!-- Add more cells as needed -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

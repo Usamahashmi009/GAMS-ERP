@@ -1,0 +1,202 @@
+{% load static%}
+{% include 'navbar.html'%}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.6">
+    <title>Home</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.4/examples/navbar-fixed/">
+
+    <!-- Bootstrap core CSS -->
+
+<link href="{% static 'css/stylesheet.css' %}" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- Favicons -->
+<link rel="apple-touch-icon" href="/docs/4.4/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/4.4/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/4.4/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/4.4/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/4.4/assets/img/favicons/safari-pinned-tab.svg" color="#563d7c">
+<link rel="icon" href="/docs/4.4/assets/img/favicons/favicon.ico">
+<meta name="msapplication-config" content="/docs/4.4/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#563d7c">
+
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+      
+
+
+  /* Style for the confirmation pop-up */
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.7);
+        justify-content: center;
+        align-items: center;
+    }
+    .display_table {
+        text-overflow: auto;
+    border-bottom-right-radius: 20px;
+    /* border-bottom-left-radius: 20px; */
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 20px;
+    box-shadow: 12px 12px 20px 6px #437cae;
+}
+    .confirmation-box {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .confirmation-box button {
+            margin: 5px;
+        }
+        .container {
+    background-color: white;
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 95%; /* Make the container responsive */
+}
+
+</style>
+    
+    <!-- Custom styles for this template -->
+   
+    <link href="{% static 'css/navbar-top-fixed.css' %}" rel="stylesheet">
+  </head>
+  <body>
+   <div class="container">
+
+
+    <h2>Cash in hand</h2>
+   {% if total_cash == 0 %}
+   <h1><a href="/add_cash">Add Cash</a></h1>
+
+    {% else %} 
+   
+ 
+
+  <h1><a href="/add_cash">{{ total_cash }}</a></h1>
+  {% endif %}
+</form>
+
+<br> <br>
+
+<h2>Action History</h2>
+<div class="display_table table-responsive">
+    <table class='table'>
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Action Type</th>
+            <th>Purchase Amount</th>  <!-- Update the header to 'Amount' -->
+            <th>Sale Amount</th>
+            <th>Cash in hand</th>
+            <th>Timestamp</th>
+            <th>action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for entry in history_entries %}
+        <tr>
+            <td>{{ entry.user.username }}</td>
+            <td>{{ entry.action_type }}</td>
+            <td>{{ entry.total_value }}</td>
+            <td>{{ entry.sale_cash }}</td>
+            <td>{{ entry.cash_hand }}</td>
+            <td>{% if entry.cash %}{{ entry.cash.timestamp }}{% else %}{{ entry.timestamp }}{% endif %}</td>
+            <td><a href="#" onclick="showDeleteConfirmation('{{ entry.sale_cash }}', '{% url 'delete_sale_action' entry.id %}')" class="btn btn-danger btn-sm" style="width: 80px; height: 30px;">🗑️Delete</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+       
+       
+      
+
+
+    <!-- ... (your existing HTML code) ... -->
+
+    <!-- Confirmation Pop-up -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmationModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="confirmationText"></p>
+                </div>
+                <div class="modal-footer">
+                    <form method="post" action="" id="confirmationForm">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showDeleteConfirmation(price, deleteUrl) {
+            document.getElementById('confirmationText').innerHTML = "Are you sure you want to delete " + price + "?";
+            document.getElementById('confirmationForm').action = deleteUrl;
+            $('#confirmationModal').modal('show');
+        }
+    
+        // Hide modal on Cancel button click
+        $('#confirmationModal').on('hidden.bs.modal', function () {
+            // Reset the form on modal close
+            document.getElementById('confirmationForm').reset();
+        });
+    </script>
+    
+    <!-- ... (your existing script tags and other content) ... -->
+    
+  
+</body>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script
+
+
+</html>
+
+
+
+

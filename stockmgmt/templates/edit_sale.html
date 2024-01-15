@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Sale</title>
+
+  <style>
+    /* Custom styles for the form */
+    .container {
+      background-color: #f8f9fa;
+      margin-top: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 95%; /* Make the container responsive */
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+      margin-bottom: 5px;
+    }
+
+    .form-group input,
+    .form-group select {
+      height: 46px;
+      padding: 8px;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    .form-row {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+      margin-right: 10px; /* Adjust spacing between input fields if needed */
+    }
+
+    button {
+      height: 36px;
+    }
+  </style>
+</head>
+
+<body>
+  {% extends "base.html" %}
+
+  {% block content %}
+  <div class="container">
+    <h1>Edit Sale</h1>
+
+    <form method="post" action="" class="my-form">
+      {% csrf_token %}
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="{{ form.stock.id_for_label }}">Stock</label>
+          {{ form.stock }}
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.rate.id_for_label }}">Rate</label>
+          {{ form.rate }}
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="{{ form.sale_quantity.id_for_label }}">Sale Quantity</label>
+          {{ form.sale_quantity }}
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.received_by.id_for_label }}">Received By</label>
+          {{ form.received_by }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="{{ form.account_recieveable.id_for_label }}">Account Receivable</label>
+        {{ form.account_recieveable }}
+      </div>
+
+      <button type="submit" class="btn btn-primary">Save changes</button>
+      <a href="{% url 'sales_record_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+
+  </div>
+  {% endblock %}
+</body>
+
+</html>

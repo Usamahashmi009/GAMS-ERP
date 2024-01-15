@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Your head content like title, css links etc. -->
+</head>
+<body>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="category">Category:</label>
+        <select id="category" name="category">
+            {% for category in categories %}
+                <option value="{{ category.id }}">{{ category.name }}</option>
+            {% endfor %}
+        </select>
+    
+        <label for="item">Item:</label>
+        <select id="item" name="item">
+            <!-- Items will be populated here using JavaScript -->
+        </select>
+    
+        <input type="submit" value="Submit">
+    </form>
+
+    <!-- Your script starts here -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $('#category').change(function () {
+            var url = "{% url 'get_items' %}";
+            var categoryId = $(this).val();
+
+            $.ajax({
+                url: url,
+                data: {
+                    'category_id': categoryId
+                },
+                success: function (data) {
+                    $("#item").html("");
+                    data.forEach(function (item) {
+                        $("#item").append('<option value="' + item.id + '">' + item.name + '</option>');
+                    });
+                }
+            });
+        });
+    </script>
+    <!-- Your script ends here -->
+</body>
+</html>

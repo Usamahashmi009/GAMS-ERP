@@ -1,0 +1,25 @@
+<!-- category_wise_sales.html -->
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Category-wise Total Sales and Revenue</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Total Sales</th>
+                <th>Total Revenue</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for category_sale in category_sales %}
+                <tr>
+                    <td>{{ category_sale.category__name }}</td>
+                    <td>{{ category_sale.total_sales }}</td>
+                    <td>{{ category_sale.total_revenue }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

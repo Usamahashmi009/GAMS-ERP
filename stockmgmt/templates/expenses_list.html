@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Expenses List</h2>
+  <div class="display_table table-responsive">
+
+  <table>
+    <thead>
+      <tr>
+        <th>Expense</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for expense in expenses %}
+        <tr>
+          <td>{{ expense.Exp }}</td>
+          <td>{{ expense.amount }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <br>
+  <a href="{% url 'add_expense' %}">Add Expense</a>
+{% endblock %}

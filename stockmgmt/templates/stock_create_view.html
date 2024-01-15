@@ -1,0 +1,218 @@
+{% load static %}
+{% include 'navbar.html' %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Stock Purchase</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+        body {
+            padding: 20px;
+            font-family: Arial, sans-serif; /* Use a suitable font */
+        }
+
+        .container {
+            background-color: white;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 95%; /* Make the container responsive */
+        }
+
+        h2.header {
+            text-align: center;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            margin-top: 15px;
+        }
+    </style>
+    <link href="{% static 'css/navbar-top-fixed.css' %}" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container">
+        <h2 class="header">Purchase Stock</h2>
+
+        <!-- Your form structure using Django form.field -->
+        <form method="post" id="main-form">
+            {% csrf_token %}
+            <div id="forms-container">
+                
+                    <div class="form-row stock-form">
+                        <!-- Vendor -->
+                        <div class="form-group">
+                            <label for="{{ form.vender.id_for_label }}">Vendor:</label>
+                            {{ form.vender }}
+                        </div>
+
+                        <!-- Category -->
+                        <div class="form-group">
+                            <label for="{{ form.category.id_for_label }}">Category:</label>
+                            {{ form.category }}
+                        </div>
+
+                        <!-- Item -->
+                        <div class="form-group">
+                            <label for="{{ form.item.id_for_label }}">Item:</label>
+                            {{ form.item }}
+                        </div>
+
+                        <!-- Quantity -->
+                        <div class="form-group">
+                            <label for="{{ form.quantity.id_for_label }}">Quantity:</label>
+                            {{ form.quantity }}
+                        </div>
+
+                        <!-- Rate -->
+                        <div class="form-group">
+                            <label for="{{ form.rate.id_for_label }}">Rate:</label>
+                            {{ form.rate }}
+                        </div>
+
+                        <!-- Company -->
+                        <div class="form-group">
+                            <label for="{{ form.company.id_for_label }}">Company:</label>
+                            {{ form.company }}
+                        </div>
+
+                    </div>
+                   
+                    
+                    
+                </div>
+                <div class="form-group">
+                    <label for="product">Total:</label>
+                    <input type="text" id="product" readonly>
+                </div>
+            <!-- Add More Button -->
+            <button type="button" class="btn btn-secondary" id="add-more">Add More</button> 
+            <!-- Submit All Forms Button -->
+            <button type="button" class="btn btn-success" id="submit-all">Submit</button>
+        </form>
+    </div>
+        {% comment %} {% for product in products %}
+        Total: {{ product.Product }}<br>
+        {% endfor %} {% endcomment %}
+        <br>
+
+        Sub Total:<strong> {{ sum_of_products }} 
+
+    <form method="post" action="{% url 'delete_all_products' %}">
+        {% csrf_token %}
+        <button type="submit"class="btn btn-success">Other Supplier</button>
+    </form> 
+   
+   <!-- Add the account_payable form -->
+   <form method="post" action="{% url 'update_account_payable' %}">
+    {% csrf_token %}
+    {{ formacc.as_p }}  <!-- Render formacc fields as paragraphs -->
+    <button type="submit" name="submit_formacc" class="btn btn-success">Submit Payable</button>
+</form> 
+    
+
+
+    <!-- Bootstrap JS and Popper.js (required for Bootstrap) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Function to fetch and populate item options based on category
+            function loadItemsByCategory(categoryId, itemSelect) {
+                fetch(`/my_new_load_item/?category_id=${categoryId}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        itemSelect.html('<option value="">---------</option>');
+                        data.forEach(item => {
+                            const option = $('<option>', {
+                                value: item.id,
+                                text: item.name
+                            });
+                            itemSelect.append(option);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            }
+    
+            // Function to calculate and update product
+            function updateProduct() {
+                const quantity = parseFloat($("#id_quantity").val()) || 0;
+                const rate = parseFloat($("#id_rate").val()) || 0;
+                const product = quantity * rate;
+    
+                // Update the product input field
+                $("#product").val(product.toFixed(0)); // Adjust the decimal places as needed
+            }
+    
+            // Add event listener for category change in each form
+            $(document).on('change', '.stock-form [id^="id_category"]', function () {
+                const categoryId = $(this).val();
+                const itemSelect = $(this).closest('.stock-form').find('[id^="id_item"]');
+                loadItemsByCategory(categoryId, itemSelect);
+            });
+    
+            // Add event listeners for quantity and rate changes
+            $("#id_quantity, #id_rate").on("input", function () {
+                updateProduct();
+            });
+            
+    
+            // Submit All Forms Click Event
+            $("#submit-all").click(function () {
+                $("#main-form").submit();
+            });
+        });
+    </script>
+
+   
+</body>
+
+</html>

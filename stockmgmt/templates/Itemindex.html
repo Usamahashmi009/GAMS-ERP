@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1 class="mb-4 text-primary"> Purchase Form </h1>
+
+
+<div id="add_items" >
+    {% include "purchase_forms.html"  %}
+</div>
+
+
+<div class="col-4">
+    <button class="btn btn-success me-2" type="button"
+        hx-get="{% url 'add_items' %}?csrfmiddlewaretoken={{ csrf_token }}"
+        hx-target="#add_items"
+        hx-swap="beforeend">+ Add more</button>
+
+
+        <button type="button" class="btn btn-primary" id="submit-all">Submit All</button>
+
+</div>
+
+{% endblock %}

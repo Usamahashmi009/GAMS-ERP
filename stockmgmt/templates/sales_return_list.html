@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <h1>Sales Returns List</h1>
+    <div class="display_table table-responsive">
+
+    <table class='table'>
+        <thead>
+            <tr>
+                <th>Sale Date</th>
+                <th>Stock</th>
+                <th>Sale Quantity</th>
+                <th>Rate</th>
+                <th>Received By</th>
+                <th>Account Receivable</th>
+                <th>Delete/Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sale in sales_data %}
+                <tr>
+                    <td>{{ sale.sale_date }}</td>
+                    <td>{{ sale.stock }}</td>
+                    <td>{{ sale.sale_quantity }}</td>
+                    <td>{{ sale.rate }}</td>
+                    <td>{{ sale.received_by }}</td>
+                    <td>{{ sale.account_recieveable }}</td>
+
+                    <td>
+                        <a href="{% url 'edit_sale_return' sale.id %}"class="btn btn-secondary btn-sm" style="width: 80px; height: 30px;">✏️Edit</a>
+                        <a href="{% url 'delete_sale_return' sale.id %}" class="btn btn-danger btn-sm" style="width: 80px; height: 30px;">🗑️Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

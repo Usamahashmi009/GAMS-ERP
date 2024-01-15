@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+
+    <style>
+        body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    div {
+        max-width: 800px;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        color: #333;
+    }
+
+    p {
+        margin: 10px 0;
+    }
+
+    label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    a {
+        display: inline-block;
+        padding: 10px 20px;
+        margin-right: 10px;
+        background-color: #007BFF;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+    a:hover {
+        background-color: #0056b3;
+    }
+        p {
+            margin: 10px 0;
+        }
+
+        
+    
+    </style>
+</head>
+<body>
+    <div>
+        <h2>User Profile</h2>
+        <label for="welcome">Welcome</label>
+        <p id="welcome"> {{ persanoal_info.username }}</p>
+    
+        <label for="username">Username</label>
+        <p id="username">{{ persanoal_info.username }}</p>
+        
+        <label for="firstName">First Name</label>
+        <p id="firstName">{{ persanoal_info.first_name }}</p>
+    
+        <label for="lastName">Last Name</label>
+        <p id="lastName">{{ persanoal_info.last_name }}</p>
+    
+        
+    
+        <label for="email">Email</label>
+        <p id="email">{{ persanoal_info.email }}</p>
+    
+        <label for="dateJoined">Date Joined</label>
+        <p id="dateJoined">{{ persanoal_info.date_joined }}</p>
+    
+        <label for="lastLogin">Last Login</label>
+        <p id="lastLogin">{{ persanoal_info.last_login }}</p>
+    
+        {% comment %} <a href="{% url 'update_profile' %}">Update your profile</a> {% endcomment %}
+        <a href="{% url 'log_out' %}">Logout</a>
+        <a href="{% url 'changepassword' %}">change password</a>
+        <a href="" style="background-color: #dc3545;">Back to Home</a>
+        {% comment %} <a href="{% url 'users_list' %}">Users List</a> {% endcomment %}
+    </div>
+    
+</body>
+</html>

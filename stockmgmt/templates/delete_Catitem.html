@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Delete Item</h2>
+  <p>Are you sure you want to delete the item ?
+
+  <form method="post" action="{% url 'delete_CatItem' pk=item.pk %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Delete Item</button>
+  </form>
+
+  <br>
+  <a href="{% url 'add-items' %}" class="btn btn-secondary">Cancel</a>
+{% endblock %}

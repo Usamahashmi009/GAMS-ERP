@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{{title}}</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- Your custom CSS -->
+    <style>
+        /* Keep dropdown open when moving from navbar to dropdown menu */
+        .navbar-nav .nav-item.dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        /* Hover effect for navbar items */
+        .navbar-nav .nav-item:hover {
+            background-color: #343a40; /* Change this to the desired background color */
+        }
+
+        /* Change text color on hover */
+        .navbar-nav .nav-item:hover a.nav-link {
+            color: #ffffff; /* Change this to the desired text color */
+        }
+
+        /* Change navbar background color to grey */
+        .navbar-dark.bg-dark {
+            background-color: #80602; /* Change this to the desired grey color */
+        }
+
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="/home">LPG Agency</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+
+
+            <li class="nav-item">
+                <a class="nav-link" href="/home" >Home</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/dashboard_L">Dashboard </a>
+            </li>
+
+            <!-- Cashbook dropdown -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="submenuCashbook" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                    Cashbook
+                </a>
+                <div class="dropdown-menu" aria-labelledby="submenuCashbook">
+                    <a class="dropdown-item" href="/action_history">Add Income</a>
+                    <a class="dropdown-item" href="/add_expense">Add Expense</a>
+                </div>
+            </li>
+
+            <!-- Sales dropdown -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="submenuSales" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Sales
+                </a>
+                <div class="dropdown-menu" aria-labelledby="submenuSales">
+                    <a class="dropdown-item" href="/make_sale">Sales Form</a>
+                    <a class="dropdown-item" href="/returnitem">Sales Returns</a>
+                    <a class="dropdown-item" href="/sales_record_list">Check Sales </a>
+                    <a class="dropdown-item" href="/account_receiveable">Account Receivable </a>
+                </div>
+            </li>
+
+            <!-- Stock dropdown -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="submenuStock" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                    Stock
+                </a>
+                <div class="dropdown-menu" aria-labelledby="submenuStock">
+                    <a class="dropdown-item" href="/add_stock">Add Stock</a>
+                    <a class="dropdown-item" href="/stock_return">Stock Returns</a>
+                    <a class="dropdown-item" href="/list_item">Check Stock </a>
+                    <a class="dropdown-item" href="/account_pay">Account Payable </a>
+                </div>
+            </li>
+
+            <!-- Reports dropdown -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="submenuReports" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                    Reports
+                </a>
+                <div class="dropdown-menu" aria-labelledby="submenuReports">
+                    <a class="dropdown-item" href="/Cost-of-goods">Sales Record</a>
+                    <a class="dropdown-item" href="/sales_return_list">Sales Returns Record</a>
+                    <a class="dropdown-item" href="/purchase_record_list">Purchase Record</a>
+                    <a class="dropdown-item" href="/purchase_returns_records">Purchase Returns Record</a>
+                    <a class="dropdown-item" href="/expenses">Expense Record</a>
+                    <a class="dropdown-item" href="/defective-items">Defective Item Record</a>
+                    <a class="dropdown-item" href="/profit_loss">Profit & Loss</a>
+                    <a class="dropdown-item" href="/balance_sheet">Balance Sheet</a>
+                </div>
+            </li>
+
+            <!-- Settings -->
+            <li class="nav-item">
+                <a class="nav-link" href="/setting_app">Settings</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav">
+            {% if request.user.is_authenticated %}
+                <li><a href="/logout/"><button class="btn btn-danger">{{ user }} | Logout</button></a></li>
+            {% else %}
+                <li><a href="/user_login/">Login</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+<!-- jQuery and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .container {
+        background-color: white;
+        margin-top: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 95%; /* Make the container responsive */
+    }
+</style>
+
+<h2>Account Receivable</h2>
+<br>
+<div class="display_table table-responsive">
+    <table class='table'>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Time</th>
+                <th>Name</th>
+                <th>Amount Receivable</th>
+                <th>Action</th>
+                <th>Pay</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in account_recieveable_values %}
+                <tr>
+                    <td>{{ entry.id }}</td>
+                    <td>{{ entry.Date_time|date:"Y-m-d H:i:s" }}</td>
+                    <td>{{ entry.received_by }}</td>
+                    <td>{{ entry.account_recieveable }}</td>
+                    <td>
+                        <form method="post" action="{% url 'delete_account_receiveable' entry.id %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="post" action="{% url 'pay_account_rec' entry.id %}" style="display: inline;">
+                            {% csrf_token %}
+                            <input type="number" name="account_recieveable_paid" min="0" required>
+                            <button type="submit" class="btn btn-success btn-sm">💰Pay</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

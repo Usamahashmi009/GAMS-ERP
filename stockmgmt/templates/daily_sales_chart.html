@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Sales Chart</title>
+    <style>
+        .chart-container {
+            width: 300px;
+            height: 150px;
+            display: inline-block;
+            margin-right: 20px; /* Adjust margin as needed */
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    {% for chart_data in data %}
+        <div class="chart-container">
+            <h2>{{ chart_data.item_name }}</h2>
+            <canvas id="{{ chart_data.item_name }}Chart"></canvas>
+            <script>
+                var ctx = document.getElementById('{{ chart_data.item_name }}Chart').getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: {{ chart_data.labels|safe }},
+                        datasets: [{
+                            label: 'Daily Sales',
+                            data: {{ chart_data.values|safe }},
+                            backgroundColor: 'rgba(255, 165, 0, 0.7)', // Orange
+                            borderColor: 'rgba(255, 165, 0, 1)', // Orange
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    precision: 0
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            </script>
+        </div>
+    {% endfor %}
+</body>
+</html>

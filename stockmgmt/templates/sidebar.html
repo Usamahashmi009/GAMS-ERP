@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{{ title }}</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- Your custom CSS -->
+    <style>
+        /* Custom sidebar styles */
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            background-color: #343a40; /* Change this to the desired background color */
+            padding-top: 20px;
+            color: #ffffff; /* Change this to the desired text color */
+        }
+
+        .sidebar a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #818181; /* Change this to the desired text color */
+            display: block;
+        }
+
+        .sidebar a:hover {
+            color: #ffffff; /* Change this to the desired text color on hover */
+        }
+
+        /* Content padding to avoid overlap with fixed sidebar */
+        .content {
+            margin-left: 250px; /* Set to the width of the sidebar */
+            padding: 16px;
+        }
+
+        /* Change navbar background color to grey */
+        .navbar-dark.bg-dark {
+            background-color: #343a40; /* Change this to the desired background color */
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="/home">LPG Agency</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</nav>
+
+<div class="sidebar">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="/home">Home</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="/dashboard_Lpg">Dashboard </a>
+        </li>
+
+        <!-- Cashbook dropdown -->
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="submenuCashbook" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                Cashbook
+            </a>
+            <div class="dropdown-menu" aria-labelledby="submenuCashbook">
+                <a class="dropdown-item" href="/action_history">Add Income</a>
+                <a class="dropdown-item" href="/add_expense">Add Expense</a>
+            </div>
+        </li>
+
+        <!-- Sales dropdown -->
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="submenuSales" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                Sales
+            </a>
+            <div class="dropdown-menu" aria-labelledby="submenuSales">
+                <a class="dropdown-item" href="/make_sale">Sales Form</a>
+                <a class="dropdown-item" href="/returnitem">Sales Returns</a>
+                <a class="dropdown-item" href="/sales_record_list">Check Sales </a>
+                <a class="dropdown-item" href="/account_receiveable">Account Receivable </a>
+            </div>
+        </li>
+
+        <!-- Stock dropdown -->
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="submenuStock" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                Stock
+            </a>
+            <div class="dropdown-menu" aria-labelledby="submenuStock">
+                <a class="dropdown-item" href="/add_stock">Add Stock</a>
+                <a class="dropdown-item" href="/stock_return">Stock Returns</a>
+                <a class="dropdown-item" href="/list_item">Check Stock </a>
+                <a class="dropdown-item" href="/account_pay">Account Payable </a>
+            </div>
+        </li>
+
+        <!-- Reports dropdown -->
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="submenuReports" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                Reports
+            </a>
+            <div class="dropdown-menu" aria-labelledby="submenuReports">
+                <a class="dropdown-item" href="/Cost-of-goods">Sales Record</a>
+                <a class="dropdown-item" href="/sales_return_list">Sales Returns Record</a>
+                <a class="dropdown-item" href="/purchase_record_list">Purchase Record</a>
+                <a class="dropdown-item" href="/purchase_returns_records">Purchase Returns Record</a>
+                <a class="dropdown-item" href="/expenses">Expense Record</a>
+                <a class="dropdown-item" href="/defective-items">Defective Item Record</a>
+                <a class="dropdown-item" href="/profit_loss">Profit & Loss</a>
+                <a class="dropdown-item" href="/balance_sheet">Balance Sheet</a>
+            </div>
+        </li>
+
+        <!-- Settings -->
+        <li class="nav-item">
+            <a class="nav-link" href="/setting_app">Settings</a>
+        </li>
+
+        <!-- Additional Sidebar Items -->
+        <li class="nav-item">
+            <a class="nav-link" href="/your_custom_page">Custom Page</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="/another_page">Another Page</a>
+        </li>
+        <!-- End Additional Sidebar Items -->
+
+    </ul>
+</div>
+
+<div class="content">
+    <!-- Your page content goes here -->
+</div>
+
+<!-- jQuery and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>

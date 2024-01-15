@@ -1,0 +1,47 @@
+<form hx-post="{% url 'add_items' %}"
+      hx-on="htmx:afterRequest: this.remove()"
+      hx-trigger="click from:#submit-all">
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="{{ form.vender.id_for_label }}">{{ form.vender.label }}</label>
+            {% csrf_token %}
+            {{ form.vender }}
+        </div>
+
+        <div class="form-group col">
+            <label for="{{ form.category.id_for_label }}">{{ form.category.label }}</label>
+            {% csrf_token %}
+            {{ form.category }}
+        </div>
+
+        <div class="form-group col">
+            <label for="{{ form.item_name.id_for_label }}">{{ form.item_name.label }}</label>
+            {% csrf_token %}
+            {{ form.item_name }}
+        </div>
+
+        <div class="form-group col">
+            <label for="{{ form.quantity.id_for_label }}">{{ form.quantity.label }}</label>
+            {% csrf_token %}
+            {{ form.quantity }}
+        </div>
+
+        <div class="form-group col">
+            <label for="{{ form.rate.id_for_label }}">{{ form.rate.label }}</label>
+            {% csrf_token %}
+            {{ form.rate }}
+        </div>
+
+        <div class="form-group col">
+            <label for="{{ form.company.id_for_label }}">{{ form.company.label }}</label>
+            {% csrf_token %}
+            {{ form.company }}
+        </div>
+
+        <div class="form-group col">
+            <label for="{{ form.account_payable.id_for_label }}">{{ form.account_payable.label }}</label>
+            {% csrf_token %}
+            {{ form.account_payable }}
+        </div>
+    </div>
+</form>

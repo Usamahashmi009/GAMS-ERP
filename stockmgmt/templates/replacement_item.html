@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+   <h2>Sales Replacement Form</h2>
+   <h3><a href="/add_cash">{{ total_cash }}</a></h3> 
+   
+   {% for message in messages %}
+         <div class="alert alert-">
+            <p>succesfully add stock</p>
+         </div>
+   {% endfor %}
+   <br> <br> <br>
+   <form method="post">
+      {% csrf_token %}
+      {{ form1|crispy }}
+      <p> write ' - ' for operation </p>
+      <button type="submit" class="btn btn-primary">Submit</button>
+   </form>
+   
+{% endblock %}

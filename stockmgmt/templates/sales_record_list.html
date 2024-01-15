@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Record List</title>
+    <style>.jumbotron {
+        padding: 2rem 1rem;
+        margin-bottom: 2rem;
+        background-color: white;
+        border-radius: 0.3rem;
+    }
+    
+    
+    </style>
+</head>
+{% block content %}
+<body>
+    <h1>Sales Record List</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Sale Date</th>
+                <th>Category</th>
+                <th>Name</th>
+                <th>Sale Quantity</th>
+                <th>Rate</th>
+                <th>Received By</th>
+                <th>Account Receivable</th>
+                <th>Delete/Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sale in sales_data %}
+                <tr>
+                    
+                    <td>{{ sale.sale_date }}</td>
+                    <td>{{ sale.stock.category }}</td>
+                    <td>{{ sale.stock }}</td>
+                    <td>{{ sale.sale_quantity }}</td>
+                    <td>{{ sale.rate }}</td>
+                    <td>{{ sale.received_by }}</td>
+                    <td>{{ sale.account_recieveable }}</td>
+                    <td>
+                        <a href="{% url 'edit_sale' sale.id %}"class="btn btn-secondary btn-sm" style="width: 80px; height: 30px;">✏️Edit</a>
+                        |
+                        <a href="{% url 'delete_sales' sale.id %}" class="btn btn-danger btn-sm" style="width: 80px; height: 30px;">🗑️Delete</a>
+                    </td>
+                </tr>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endblock %}
+</body>
+</html>

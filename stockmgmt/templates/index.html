@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<h1 class="mb-4 text-primary"> Sale form </h1>
+<div id="contact-forms">
+    {% include "forms.html"  %}
+</div>
+
+<div class="col-3">
+    <button class="btn btn-success me-2" type="button"
+        hx-get="{% url 'create-form' %}?csrfmiddlewaretoken={{ csrf_token }}"
+        hx-target="#contact-forms"
+        hx-swap="beforeend">+ Add more</button>
+
+        <button type="button" class="btn btn-primary" id="submit-all">Submit All</button>
+</div>
+
+<section id="message">
+    {% include 'toast.html' %}
+</section>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Delete Sale</h1>
+
+  <p>Are you sure you want to delete the sale with the following details?</p>
+
+  <dl>
+    <dt>Sale Date:</dt>
+    <dd>{{ sale.sale_date }}</dd>
+
+    <!-- Include other sale details as needed -->
+  </dl>
+
+  <form method="post" action="">
+    {% csrf_token %}
+    <button class="btn btn-danger">Delete Item</button>
+  </form>
+
+  <a href="{% url 'sales_record_list' %}"class="btn btn-secondary">Cancel</a>
+{% endblock %}

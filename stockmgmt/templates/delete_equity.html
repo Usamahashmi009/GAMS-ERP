@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="jumbotron">
+    <h2>Delete Equity</h2>
+    <p>Are you sure you want to delete the equity record for {{ equity.created_at }}?</p>
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Confirm Delete</button>
+      <a href="{% url 'add_Equity' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+  </div>
+{% endblock %}

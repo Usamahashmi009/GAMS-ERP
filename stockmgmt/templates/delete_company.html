@@ -1,0 +1,10 @@
+{% extends 'base.html' %}  <!-- Replace with your base template -->
+
+{% block content %}
+  <h2>Delete Company</h2>
+  <p>Are you sure you want to delete "{{ company.name }}"?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Delete</button>
+  </form>
+{% endblock %}

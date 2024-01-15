@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Update Item</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Update Item</button>
+  </form>
+  <br>
+  <a href="{% url 'add-items' %}" class="btn btn-secondary">Cancel</a>
+{% endblock %}

@@ -1,0 +1,110 @@
+{% load static %}
+{% include 'navbar.html' %}
+
+<style>
+    body {
+        font-family: Arial, sans-serif; /* Use a suitable font */
+    }
+
+    .container {
+        max-width: 85%;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .jumbotron {
+    padding: 2rem 1rem;
+    margin-bottom: 2rem;
+    background-color: white;
+    border-radius: 0.3rem;
+}
+
+    .form-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+    }
+
+    label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .form-group {
+        flex: 1;
+        margin-right: 10px;
+    }
+.container {
+    background-color: white;
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 95%; /* Make the container responsive */
+}.col-3 {
+    margin-left: 65px;
+    -ms-flex: 0 0 25%;
+    flex: 0 0 25%;
+    max-width: 25%;
+    margin-top: -74px;
+}
+    input,
+    select {
+        height: 46px;
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    /* Optional: Add more styling as needed */
+</style>
+
+<form hx-post="{% url 'create-form' %}" hx-on="htmx:afterRequest: this.remove()" hx-trigger="click from:#submit-all">
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="{{ form.stock.id_for_label }}">{{ form.stock.label }}</label>
+                {% csrf_token %}
+                {{ form.stock }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.rate.id_for_label }}">{{ form.rate.label }}</label>
+                {% csrf_token %}
+                {{ form.rate }}
+            </div>
+
+        
+            <div class="form-group">
+                <label for="{{ form.sale_quantity.id_for_label }}">{{ form.sale_quantity.label }}</label>
+                {% csrf_token %}
+                {{ form.sale_quantity }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.received_by.id_for_label }}">{{ form.received_by.label }}</label>
+                {% csrf_token %}
+                {{ form.received_by }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.account_recieveable.id_for_label }}">{{ form.account_recieveable.label }}</label>
+                {% csrf_token %}
+                {{form.account_recieveable}}
+            </div>
+        </div>
+
+        </div>
+    </div>
+
+    <section class="message" id="message" hx-swap-oob="true" hx-swap="innerHTML">
+        {% include 'toast.html' %}
+    </section>
+
+</form>

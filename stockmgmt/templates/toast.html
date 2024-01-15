@@ -1,0 +1,12 @@
+{% if messages %}
+    {% for message in messages %}
+        
+            {% if message.tags == 'error' %}
+                <div class="success ms-3 text-sm font-normal"> {{ message}}</div>
+                
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endif %}
+</main>
+</body>

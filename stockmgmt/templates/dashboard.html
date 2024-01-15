@@ -1,0 +1,607 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block title %} Dashboard {% endblock title %}
+
+{% block content %}
+
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+<style>
+    body{
+        background-color: whitesmoke;
+    }
+    /* Styles for the Stock Trend section */
+    .row {
+        margin-bottom: 20px;
+    }
+
+    /* Styles for individual graphs */
+    canvas {
+        width: 100% !important;
+        height:340px;
+    }
+ /* Styles for the card section */
+    .card {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-body {
+        width: 111%;
+        padding: 20px;
+    }
+
+    .numbers {
+        color: #333;
+    }
+
+    .icon-shape {
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        border-radius: 50%;
+    }
+
+    .container {
+        background-color: white;
+        margin-top: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 95%; /* Make the container responsive */
+    }
+   
+    /* Styles for the Itemized Sales section */
+    .chart-container {
+        border: 1px solid #ddd;
+        width: 100%;
+        height: 450px;
+        background-color: white;
+        margin-top: 20px;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+    li{
+        list-style: none;
+    }
+    a{
+        display:none;
+        text-decoration: none;
+    }
+
+    .chart-container:hover {
+        transform: scale(1.05);
+    }
+
+    /* Additional styles for a professional appearance */
+    h4, h5 {
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    /* Adjust spacing for the row of cards */
+    .row .card {
+        margin-bottom: 20px;
+    }
+
+    /* Styles for the chart labels */
+    .chart-container h5 {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }  .card {
+            flex: 1;
+            margin: 0 8px;
+        }   #itemized-sales-section {
+        border: 1px solid #ddd;
+        margin-top: 20px;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    #itemized-sales-heading {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    #itemized-sales-chart-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .itemized-chart-container {
+        width: 200px;
+        height: 200px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        margin: 10px;
+        padding: 10px;
+        overflow: hidden; /* Ensure charts stay within container */
+        position: relative;
+    }
+
+    .itemized-chart-heading {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="contai">
+
+    <div class="container-fluid py-4">
+
+
+
+
+        
+        <div class="row">
+
+
+            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-body p-3" style="width: 111%;height: 10%;">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="numbers">
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Profit & Loss</p>
+                                    <h5 class="font-weight-bolder">
+                                        {{Net_Profit}}
+                                    </h5>
+                                    <p class="mb-0">
+                                        <span class="text-success text-sm font-weight-bolder">{{profit_last_week}}</span>
+                                        since last week
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-4 text-end">
+                                <div class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
+                                    <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-body p-3" style="width: 111%;">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="numbers">
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Sales</p>
+                                    <h5 class="font-weight-bolder">
+                                        {{Total_sales}}
+                                    </h5>
+                                    <p class="mb-0">
+                                        <span class="text-success text-sm font-weight-bolder">+5%</span> than last month
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-4 text-end">
+                                <div class="icon icon-shape bg-gradient-warning shadow-warning text-center rounded-circle">
+                                    <i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-body p-3" style="width: 111%;">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="numbers">
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Returns</p>
+                                    <p class="font-weight-bolder">
+                                        {% for sales_return_record in sales_return_data %}
+                                        <li>{{ sales_return_record.stock.item_name }}  {{ sales_return_record.sale_quantity }} </li>
+                                    {% endfor %}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-4 text-end">
+                                <div class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
+                                    <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-body p-3" style="width: 111%;">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="numbers">
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Purchase Items</p>
+                                    <p class="font-weight-bolder">
+                                        {% for purchase_record in purchase_data %}
+                                            <li>{{ purchase_record.item_name }} - {{ purchase_record.quantity }} - {{ purchase_record.rate }}</li>
+                                        {% endfor %}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-4 text-end">
+                                <div class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
+                                    <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        
+
+
+          
+        </div>
+        
+
+           
+           
+        <div class="row">
+            <div class="col-md-6">
+                <div class="chart-container">        <h4>Stock Trend</h4>
+
+                    <canvas id="myBarChart"></canvas>
+                </div>
+            </div>
+            <div class="col-md-6">       
+
+                <div class="chart-container"> <h4>category-wise sales</h4>
+                    <canvas id="categorySalesChart"></canvas>
+                </div>
+            </div>
+        </div>
+           <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script type="text/javascript">
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var ctx = document.getElementById('myBarChart').getContext('2d');
+        
+                        var labels = [];
+                        var dataPoints = [];
+        
+                        {% for entry in stock_data_trend %}
+                            labels.push(" {{ entry.item_name__name }}");
+                            dataPoints.push({{ entry.total_quantity }});
+                        {% endfor %}
+        
+                        var myBarChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: labels,
+                                datasets: [{
+                                    label: 'Stock Trend',
+                                    data: dataPoints,
+                                    backgroundColor: 'rgba(255, 0, 0, 0.5)', // Red color
+                                    borderColor: 'rgba(255, 0, 0, 1)',
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                },
+                                plugins: {
+                                    legend: {
+                                        display: false
+                                    }
+                                }
+                            }
+                        });
+                    });
+                </script>
+            </div>
+       
+<!--             
+            <div style="height: 300px; width: 100%;">
+                <canvas id="categorySalesChart"></canvas>
+            </div> -->
+        
+            <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    var ctxCategory = document.getElementById('categorySalesChart').getContext('2d');
+        
+                    var categoryLabels = [];
+                    var categoryDataPoints = [];
+        
+                    {% for category_entry in category_sales_data %}
+                        categoryLabels.push("{{ category_entry.stock__category__name }}");
+                        categoryDataPoints.push({{ category_entry.total_sales }});
+                    {% endfor %}
+        
+                    var categorySalesChart = new Chart(ctxCategory, {
+                        type: 'bar',
+                        data: {
+                            labels: categoryLabels,
+                            datasets: [{
+                                label: 'Category-wise Sales',
+                                data: categoryDataPoints,
+                                backgroundColor: [
+    'rgb(40, 187, 187)',     // Darker red
+    'rgb(144, 238, 191)',  // Darker dodger blue
+    'rgba(184, 134, 11, 0.5)',  // Darker dark khaki
+    'rgba(0, 128, 128, 0.5)',   // Darker teal
+    'rgba(75, 0, 130, 0.5)',    // Darker indigo
+    'rgba(255, 140, 0, 0.5)'    // Darker dark orange
+],
+borderColor: [
+    'rgba(139, 0, 0, 1)',       // Darker red
+    'rgba(30, 144, 255, 1)',    // Darker dodger blue
+    'rgba(184, 134, 11, 1)',    // Darker dark khaki
+    'rgba(0, 128, 128, 1)',     // Darker teal
+    'rgba(75, 0, 130, 1)',      // Darker indigo
+    'rgba(255, 140, 0, 1)'      // Darker dark orange
+], borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: false
+                                }
+                            }
+                        }
+                    });
+                });
+            </script>
+            <br>
+        </div>
+        
+    </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card h-100">
+                <div class="card-body p-3" style="width: 111%;">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Category wise Sales</p>
+                                <p class="font-weight-bolder">
+                                    {% for category_sale in category_sales %}
+                                        {% if category_sale.category__name is not None and category_sale.total_sales is not None and category_sale.total_revenue is not None %}
+                                            {{ category_sale.category__name }} | {{ category_sale.total_sales }} | {{ category_sale.total_revenue }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                            <div class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
+                                <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>                </div>
+            </div>
+        </div>
+    
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card h-100">
+                <div class="card-body p-3" style="width: 111%;">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold">MOQ</p>
+                                <p class="font-weight-bolder">
+                                    {% for stock in stock_data_reorder %}
+                                    <p> {{ stock.item_name__name }} </p>
+                                    {% endfor %}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                            <div class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
+                                <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>                </div>
+            </div>
+        </div>
+    
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card h-100">
+                <div class="card-body p-3" style="width: 111%;">
+                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Defective Items Quantity</p>
+
+                    <!-- Content for the third card -->
+                    <script>
+ document.addEventListener('DOMContentLoaded', function () {
+                            var defectiveItemsData = [];
+                            var defectiveItemsLabels = [];
+                    
+                            // Extract data for the chart
+                            {% for defective_item_record in defective_items_data %}
+                                defectiveItemsLabels.push('{{ defective_item_record.item_name }}');
+                                defectiveItemsData.push({{ defective_item_record.quantity }});
+                            {% endfor %}
+                    
+                            var ctx = document.getElementById('defectiveItemsChart').getContext('2d');
+                            var myChart = new Chart(ctx, {
+                                type: 'bar',
+                                data: {
+                                    labels: defectiveItemsLabels,
+                                    datasets: [{
+                                        label: 'Defective Items Quantity',
+                                        data: defectiveItemsData,
+                                        backgroundColor: [
+    'rgb(40, 187, 187)',     // Darker red
+    'rgb(144, 238, 191)',  // Darker dodger blue
+    'rgba(184, 134, 11, 0.5)',  // Darker dark khaki
+    'rgba(0, 128, 128, 0.5)',   // Darker teal
+    'rgba(75, 0, 130, 0.5)',    // Darker indigo
+    'rgba(255, 140, 0, 0.5)'    // Darker dark orange
+],
+borderColor: [
+    'rgba(139, 0, 0, 1)',       // Darker red
+    'rgba(30, 144, 255, 1)',    // Darker dodger blue
+    'rgba(184, 134, 11, 1)',    // Darker dark khaki
+    'rgba(0, 128, 128, 1)',     // Darker teal
+    'rgba(75, 0, 130, 1)',      // Darker indigo
+    'rgba(255, 140, 0, 1)'      // Darker dark orange
+],    // Darker red
+
+                                        borderWidth: 1
+                                    }]
+                                },
+                                options: {
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true
+                                        }
+                                    }
+                                }
+                            });
+                        });                    </script><div style="height: 400px !important;">
+    <canvas id="defectiveItemsChart" style="height: 400px !important; max-width: 90%;"></canvas>
+</div>
+
+                </div>
+            </div>
+        </div>
+  
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card h-100">
+                <div class="card-body p-3" style="max-width: 100%;a{display:none}">
+                    <p class='text-sm mb-0 text-uppercase font-weight-bold'>Current Stock</p>
+                    <h5 class="font-weight-bolder">
+                        Rs.{{total_Stock}}
+                    </h5><div id="chartContainer" style="height: 300px; width: 100%; a{display:none}"></div>
+                    <script>
+                        window.onload = function () {
+                            var dataPointsCategories = [
+                                {% for entry in category_stock_count %}
+                                    { label: "{{ entry.category__name }}", y: {{ entry.total_count }}, color: 'rgba(139, 0, 0, 0.2)', borderColor: 'rgba(139, 0, 0, 1)' },
+                                {% endfor %}
+                            ];
+                    
+                            var dataPointsItemizedStock = [
+                                {% for entry in itemized_stock_count %}
+                                    { label: "{{ entry.item_name__name }}", y: {{ entry.quantity }}, color: 'rgba(30, 144, 255, 0.2)', borderColor: 'rgba(30, 144, 255, 1)' },
+                                {% endfor %}
+                            ];
+                    
+                            var chart = new CanvasJS.Chart("chartContainer", {
+                                animationEnabled: true,
+                                title: {
+                                    text: "Categories and Itemized Stock Count",
+                                    fontSize: 18
+                                },
+                                data: [
+                                    {
+                                        type: "pie",
+                                        name: "Categories",
+                                        showInLegend: true,
+                                        legendText: "{label}: {y}",
+                                        indexLabel: "{label} - #percent%",
+                                        dataPoints: dataPointsCategories
+                                    },
+                                    {
+                                        type: "pie",
+                                        name: "Itemized Stock",
+                                        showInLegend: true,
+                                        legendText: "{label}: {y}",
+                                        indexLabel: "{label} - #percent%",
+                                        dataPoints: dataPointsItemizedStock
+                                    }
+                                ]
+                            });
+                    
+                            chart.render();
+                        }
+                    </script>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div id="itemized-sales-section">
+        <h5 id="itemized-sales-heading">Itemized Sales</h5>
+        <div id="itemized-sales-chart-container" class="d-flex flex-wrap">
+            {% for chart_data in data %}
+                <div id="{{ chart_data.item_name|slugify }}-chart-container" class="itemized-chart-container">
+                    <h5 class="itemized-chart-heading">{{ chart_data.item_name }}</h5>
+                    <canvas id="{{ chart_data.item_name|slugify }}-Chart" width="300" height="200"></canvas>
+                    <script>
+                        var ctx = document.getElementById('{{ chart_data.item_name|slugify }}-Chart').getContext('2d');
+                        var myChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: {{ chart_data.labels|safe }},
+                                datasets: [{
+                                    label: 'Daily Sales',
+                                    data: {{ chart_data.values|safe }},
+                                  backgroundColor: [
+    'rgb(40, 187, 187)',     // Darker red
+    'rgb(144, 238, 191)',  // Darker dodger blue
+    'rgba(184, 134, 11, 0.5)',  // Darker dark khaki
+    'rgba(0, 128, 128, 0.5)',   // Darker teal
+    'rgba(75, 0, 130, 0.5)',    // Darker indigo
+    'rgba(255, 140, 0, 0.5)'    // Darker dark orange
+],
+borderColor: [
+    'rgba(139, 0, 0, 1)',       // Darker red
+    'rgba(30, 144, 255, 1)',    // Darker dodger blue
+    'rgba(184, 134, 11, 1)',    // Darker dark khaki
+    'rgba(0, 128, 128, 1)',     // Darker teal
+    'rgba(75, 0, 130, 1)',      // Darker indigo
+    'rgba(255, 140, 0, 1)'      // Darker dark orange
+],          borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    x: {
+                                        grid: {
+                                            display: false
+                                        }
+                                    },
+                                    y: {
+                                        beginAtZero: true,
+                                        ticks: {
+                                            precision: 0
+                                        }
+                                    }
+                                },
+                                plugins: {
+                                    legend: {
+                                        display: false
+                                    }
+                                }
+                            }
+                        });
+                    </script>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

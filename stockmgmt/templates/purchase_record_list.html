@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+    <h1>Purchase Record List</h1>
+    <div class="display_table table-responsive">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Stock</th>
+                <th>Purchase Quantity</th>
+                <th>Purchase Date</th>
+                <th>Rate</th>
+                <th>Account Payable</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for purchase in purchase_data %}
+                <tr>
+                    <td>{{ purchase.item_name }}</td>
+                    <td>{{ purchase.quantity }}</td>
+                    <td>{{ purchase.timestamp }}</td>
+                    <td>{{ purchase.rate }}</td>
+                    <td>{{ purchase.account_payable }}</td>
+
+                    
+                    <td><a href="{% url 'delete_items' purchase.id %}"class="btn btn-danger btn-sm" style="width: 80px; height: 30px;">🗑️Delete</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Cash Entry</title>
+</head>
+<body>
+    {% block content %}
+    <h1 class='header'>Update Cash Entry</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Update Cash Entry</button>
+    </form>
+{% endblock %}
+    {% comment %} <a href="{% url 'update_cash' pk=cash_entry.pk %}">Edit Cash Entry</a> {% endcomment %}
+</body>
+</html>

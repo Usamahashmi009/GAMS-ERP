@@ -1,0 +1,12 @@
+{%block content%}
+
+{{ form.category.label_tag }}
+{% render_field form.category class="custom-select mb-4" autocomplete="off" %}
+
+
+
+<div id='Itemsmodel'>
+    {%include 'Itemsmodel.html'%}
+</div>
+
+{%endblock%}

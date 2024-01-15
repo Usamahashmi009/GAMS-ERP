@@ -1,0 +1,179 @@
+{% load static %}
+{% include 'navbar.html'%}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.6">
+    <title>Stock List</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/stylesheet.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/navbar-top-fixed.css' %}" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            background-color: white;
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 95%; /* Make the container responsive */
+        }
+
+        .jumbotron {
+            padding: 20px;
+        }
+
+        .header {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .col-sm-2,
+        .col-sm-10 {
+            margin-bottom: 20px;
+        }
+
+        .mybutton {
+            width: 100%;
+        }
+
+        .display_table {
+            overflow-x: auto;
+        }
+
+        .table th,
+        .table td {
+            text-align: center;
+        }
+
+        .table th {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+
+        .table td a {
+            color: #007bff;
+        }
+
+        .table td div {
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main role="main" class="container">
+
+        {% comment %}
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+
+        {% endif %}
+        {% endcomment %}
+
+        <div class="jumbotron">
+            <div class='header'>{{title}}</div>
+
+            <div class='row'>
+                <div class='col-sm-2'>
+                    <br> <br>
+                    <a href="{% url 'defective-items' %}" style="padding-right: 10px;">Defective Items</a>
+                    <br> <br>
+                    <form method='POST' action=''>
+                        {% csrf_token %}
+                        {{form|crispy}}
+                        <input class="btn btn-primary mybutton" type="submit" value='Search' />
+
+                    </form>
+                    <br>
+
+                    <a href="/purchase_items">
+                        <div class="btn btn-primary mybutton">Add Items</div>
+                    </a><br><br>
+                    {% comment %}
+                    <a href="/list_history"><div class="btn btn-primary mybutton">List History</div></a><br>
+                    {% endcomment %}
+                </div>
+
+                <br>
+                <div class='col-sm-10'>
+                    <div class="display_table">
+                        <table class='table'>
+                            <thead>
+                                <tr>
+                                    <th> Batch</th>
+                                    <th> Vender</th>
+                                    <th>Company</th>
+                                    <th>CATEGORY</th>
+                                    <th>Price</th>
+                                    <th>ITEM NAME</th>
+                                    <th>QUANTITY IN STORE</th>
+                                    <th>Reorder Level</th>
+                                    <th>Last Update</th>
+                                    <th>Sub Total</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            {% for instance in queryset %}
+                            <tr>
+                                <td>{{ instance.batch_number }}</td>
+                                <td>{{instance.vender}}</td>
+                                <td>{{instance.company}}</td>
+                                <td>{{instance.category}}</td>
+                                <td>{{instance.rate}}</td>
+                                <td>{{instance.item_name}}</td>
+                                <td>
+                                    {% if instance.quantity <= instance.reorder_level %}
+                                    <div>
+                                        <a href="{% url 'update_items' instance.id %}">{{instance.quantity}}</a>
+                                    </div>
+                                    {% else %}
+                                    <a href="{% url 'update_items' instance.id %}">{{instance.quantity}}</a>
+                                    {% endif %}
+                                </td>
+                                <td><a href="{% url 'reorder_level' instance.id %}">{{instance.reorder_level}}</a></td>
+                                <td>{{instance.lastupdate}}</td>
+                                <td>{{ instance.subtotal }}</td>
+                                <td><a href="{% url 'delete_items' instance.id %}"> Delete </a></td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script>
+        window.jQuery || document.write('<script src="/docs/4.4/assets/js/vendor/jquery.slim.min.js"><\/script>')
+    </script>
+    <script src="/docs/4.4/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

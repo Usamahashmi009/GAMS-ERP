@@ -1,0 +1,106 @@
+{% load static %}
+{% include 'navbar.html'%}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Balance Sheet</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+        }
+        .jumbotron {
+            padding: 2em;
+            background-color: #f8f9fa;
+            border-radius: 0.3em;
+        }
+        .display_table {
+            display: flex;
+            justify-content: space-between;
+        }
+        table {
+            width: 45%;
+            margin: 1em 0;
+            border-collapse: collapse;
+            background: #B8CAE4
+            
+        }
+        th, td {
+            border: 1px solid #dee2e6;
+            padding: 0.75em;
+            text-align: left;
+        }
+        th {
+            background-color: #337ab7;
+            color: white;
+        }
+        caption {
+            caption-side: top;
+            font-size: 1.5em;
+            margin-bottom: 1em;
+            color: #337ab7;
+        }
+    </style>
+</head>
+<body>
+    <br>
+    <main role="main" class="container">
+        <div class="jumbotron">
+            <h1 class = 'header' style='text-align: center'>Balance Sheet</h1>
+            <div class="display_table">
+    
+                <table class='table'>
+                    <caption style='border: 1px solid; text-align: center;'>O.E + Liabilities</caption>
+
+                    <tr>
+                        <th>Owner's Equity</th>
+                        <td>{{ total_equity }}</td>
+                    </tr>
+                    <tr>
+                        <th>Net Profit</th>
+                        <td>{{ Net_Profit }}</td>
+                    </tr>
+                    <tr>
+                        <th>Accounts Payable</th>
+                        <td>{{ total_accountPayable }}</td>
+                    </tr>
+                    <tr>
+                        <th>Total Liabilities</th>
+                        <td><strong>{{ total_equity|add:Net_Profit|add:total_accountPayable }}</td>
+                    </tr>
+                </table>
+    
+                <table class='table'>
+                    <caption style='border: 1px solid; text-align: center;'>Assets</caption>
+
+                    <tr>
+                        <th>Total Stock</th>
+                        <td>{{ total_Stock }}</td>
+                    </tr>
+                    
+                    <tr>
+                        <th>Defective Items</th>
+                        <td>{{ total_sum }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Accounts Receivable</th>
+                        <td>{{total_accountRecievable }}</td>
+                    </tr>
+                    <tr>
+                        <th>Cash in Hand</th>
+                        <td>{{ cash_in_hand }}</td>
+                    </tr>
+                    <tr>
+                        <th>Total Assets</th>
+                        <td><strong>{{ total_Stock|add:total_accountRecievable|add:cash_in_hand|add:total_sum }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
